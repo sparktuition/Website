@@ -6,37 +6,43 @@ const Courses = () => {
       id: 1,
       icon: "fa-school",
       title: "CBSE / ICSE (1st–12th)",
-      description: "Comprehensive school curriculum coaching for CBSE and ICSE boards from Grade 1 through Grade 12. Curriculum-mapped lessons, revision plans and exam strategies."
+      description: "Comprehensive school curriculum coaching for CBSE and ICSE boards from Grade 1 through Grade 12. Curriculum-mapped lessons, revision plans and exam strategies.",
+      buttonText: "📘 Boost Your Grades – Book a Free Demo Today!"
     },
     {
       id: 2,
       icon: "fa-rocket",
       title: "JEE Coaching",
-      description: "Targeted JEE coaching with structured modules, concept-first lessons, topic-wise practice and full-length mock tests for aspirants aiming for engineering entrance exams."
+      description: "Targeted JEE coaching with structured modules, concept-first lessons, topic-wise practice and full-length mock tests for aspirants aiming for engineering entrance exams.",
+      buttonText: "🚀 Start Your JEE Journey with Expert Guidance!"
     },
     {
       id: 5,
       icon: "fa-heartbeat",
       title: "NEET Coaching",
-      description: "NEET-focused coaching emphasising strong conceptual understanding in Biology, Chemistry and Physics, regular test series and doubt-clearing sessions for medical aspirants."
+      description: "NEET-focused coaching emphasising strong conceptual understanding in Biology, Chemistry and Physics, regular test series and doubt-clearing sessions for medical aspirants.",
+      buttonText: "🩺 Crack NEET with Confidence – Join Spark Now!"
     },
     {
       id: 6,
       icon: "fa-chalkboard-teacher",
       title: "CET Coaching",
-      description: "State CET preparation with curriculum-aligned modules, previous-year paper practice and time-management strategies to maximise scores in competitive state exams."
+      description: "State CET preparation with curriculum-aligned modules, previous-year paper practice and time-management strategies to maximise scores in competitive state exams.",
+      buttonText: "🎯 Ace CET with Smart Strategies – Enroll Today!"
     },
     {
       id: 3,
       icon: "fa-cogs",
       title: "Engineering Subjects",
-      description: "Subject coaching across engineering streams — Aerospace, Mechanical, AI and more. Focus on core concepts, problem solving and application-based learning."
+      description: "Subject coaching across engineering streams — Aerospace, Mechanical, AI and more. Focus on core concepts, problem solving and application-based learning.",
+      buttonText: "🔧 Understand Concepts, Not Just Formulas – Learn with Us!"
     },
     {
       id: 4,
       icon: "fa-graduation-cap",
       title: "B.Sc Coaching",
-      description: "B.Sc. level coaching in Mathematics, Physics and AI — designed for strong conceptual grounding and university exam readiness."
+      description: "B.Sc. level coaching in Mathematics, Physics and AI — designed for strong conceptual grounding and university exam readiness.",
+      buttonText: "🧠 Master Your Core Subjects with Expert Tutors!"
     }
   ];
 
@@ -57,7 +63,7 @@ const Courses = () => {
               <div className="course-content">
                 <h3>{course.title}</h3>
                 <p>{course.description}</p>
-                <a href="#contact" className="btn">Learn More</a>
+                <a href="#contact" className="btn">{course.buttonText}</a>
               </div>
             </div>
           ))}
