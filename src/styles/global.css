@@ -1,0 +1,186 @@
+:root {
+  /* Modern, bright professional palette */
+  --bg: #ffffff; /* white background */
+  --primary: #FFD700; /* bright yellow */
+  --primary-dark: #F4C430; /* darker yellow for hover */
+  --secondary: #1a1a1a; /* rich black */
+  --secondary-light: #333333; /* lighter black */
+  --accent: #FF9800; /* orange accent for highlights */
+  --surface: rgba(0,0,0,0.02); /* subtle surface */
+  --glass-border: rgba(0,0,0,0.08);
+  --text: #1a1a1a; /* main dark text */
+  --text-light: #ffffff; /* light text for dark backgrounds */
+  --muted: rgba(0,0,0,0.7); /* secondary dark text */
+  --muted-strong: rgba(0,0,0,0.85);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.15);
+  --header-height: 70px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%; /* avoid font scaling on mobile */
+}
+
+body {
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  margin: 0;
+  padding-top: 0; /* header uses sticky positioning, no global top padding needed */
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* remove tap highlight */
+}
+
+.container {
+  width: min(94%, 1200px);
+  margin: 0 auto;
+  padding: 0 18px;
+  box-sizing: border-box;
+}
+
+section {
+  padding: 80px 0;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 30px; /* slightly larger touch target */
+  min-height: 48px;
+  background: var(--primary);
+  color: var(--secondary);
+  border: 1.5px solid var(--primary-dark);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s, border-color 0.18s, transform 0.12s;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(255, 221, 51, 0.08);
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+  color: var(--secondary);
+  border-color: var(--accent);
+  box-shadow: 0 8px 32px rgba(255, 221, 51, 0.18);
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 6px 20px rgba(255, 152, 0, 0.08);
+}
+
+.btn-accent:hover {
+  background: #ffb74d;
+  color: var(--secondary);
+  border-color: var(--primary);
+  box-shadow: 0 8px 32px rgba(255, 152, 0, 0.18);
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: clamp(1.6rem, 3.6vw, 2.8rem);
+  color: var(--secondary);
+  margin-bottom: 14px;
+  position: relative;
+  display: inline-block;
+  font-weight: 800;
+}
+
+.section-title h2::before {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: var(--primary);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-150%);
+}
+
+.section-title h2::after {
+  content: '';
+  position: absolute;
+  width: 40px;
+  height: 4px;
+  background: var(--primary);
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(50%);
+}
+
+.section-title p {
+  color: var(--muted);
+  max-width: 680px;
+  margin: 0 auto;
+  font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+  margin-top: 14px;
+}
+
+/* Reduce large paddings on smaller viewports for better mobile performance */
+@media (max-width: 768px) {
+  section {
+    padding: 40px 0;
+  }
+
+  .container {
+    width: 96%;
+    padding: 0 14px;
+  }
+
+  .btn, .btn-accent {
+    width: 100%;
+    padding: 14px 18px;
+  }
+
+  .section-title {
+    margin-bottom: 32px;
+  }
+}
+
+/* default link styles for a cleaner professional look */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Top scroll progress bar */
+.top-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  z-index: 1200;
+  transition: width 120ms linear, opacity 240ms ease;
+  pointer-events: none;
+}

@@ -1,0 +1,213 @@
+/* --- Global Variables & Resets (Assumed) --- 
+:root {
+  --primary: #4f46e5;
+  --secondary: #1f2937;
+  --bg: #ffffff;
+  --muted: #6b7280;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --header-height: 70px; 
+  --container-max-width: 1200px;
+}
+* { box-sizing: border-box; }
+.container { max-width: var(--container-max-width); margin: 0 auto; padding: 0 24px; }
+*/
+
+/* ===================================
+   Base Header Styles
+   =================================== */
+
+.site-header {
+  background: var(--bg);
+  /* Modern touch: subtle transparency/blur */
+  /* backdrop-filter: saturate(180%) blur(5px); */
+  box-shadow: var(--shadow-sm);
+  position: sticky; /* Use sticky for a better user experience than fixed */
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  min-height: var(--header-height); /* Use min-height for flexibility */
+}
+
+.header-container {
+  height: 100%;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* Use the full header height */
+  min-height: var(--header-height); 
+}
+
+/* --- Logo Styling --- */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--secondary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: var(--primary);
+  margin-left: 6px;
+  font-weight: 800; /* Differentiate the key word */
+}
+
+/* --- Navigation Links (Desktop) --- */
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 8px; /* Use gap instead of margin-left for cleaner spacing */
+}
+
+.nav-links li {
+  margin: 0; /* Reset margins from your previous code */
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--secondary);
+  font-weight: 500;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  padding: 8px 12px; /* Nicer padding */
+  border-radius: 6px; /* Subtle rounding */
+  display: block; /* Make the whole padding clickable */
+}
+
+/* Modern Hover/Active State */
+.nav-links a:hover,
+.nav-links a:focus {
+  background-color: rgba(var(--primary-rgb, 79, 70, 229), 0.08); /* Assuming a primary RGB var */
+  color: var(--primary);
+}
+
+.nav-links a.active-link { /* Use this class for the currently active page/section */
+  background-color: var(--primary);
+  color: var(--bg);
+}
+
+
+/* --- Menu Toggle Button (Mobile Only) --- */
+.menu-toggle {
+  display: none; /* Hide by default on desktop */
+  cursor: pointer;
+  color: var(--secondary);
+  background: transparent;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  z-index: 1100; /* Ensure it's above the menu overlay */
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus {
+  background-color: rgba(0, 0, 0, 0.04);
+  outline: none;
+}
+
+.menu-icon svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* --- Skip Link for Accessibility --- */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 8px 12px;
+  background: var(--primary);
+  color: var(--bg);
+  text-decoration: none;
+  z-index: 9999;
+  transition: top 0.3s ease-in-out;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+
+/* ===================================
+   Mobile Responsiveness (Max-width 768px)
+   =================================== */
+
+@media (max-width: 1024px) {
+  
+  .menu-toggle {
+    display: block; /* Show the button on mobile */
+  }
+
+  .nav-links {
+    /* Full-screen overlay menu container */
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100dvh - var(--header-height));
+    height: calc(100vh - var(--header-height));
+
+    /* Use a translucent backdrop so underlying content peeks through */
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px) saturate(120%);
+    transform: translateX(100%); /* Start off-screen to the right */
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch; /* links will be full-width */
+    padding: 18px 18px;
+    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.12);
+
+    /* Elegant slide-in animation */
+    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 220ms ease;
+    opacity: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Active state slides the menu into view */
+  .nav-links.active {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  .nav-links li {
+    width: 100%; /* Links take full width */
+    margin-bottom: 5px;
+  }
+  
+  .nav-links a {
+    font-size: 1.15rem; /* Larger links for touch targets */
+    padding: 12px 10px;
+    width: 100%;
+    font-weight: 600;
+  }
+
+  /* Backdrop layer behind the nav to dim page content */
+  .nav-links::after {
+    content: '';
+    position: fixed;
+    inset: var(--header-height) 0 0 0;
+    background: rgba(0,0,0,0.28);
+    z-index: 1090; /* sit below nav but above page content */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+  }
+
+  .nav-links.active::after {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+Disallow: /temp/
+
+# Sitemap location
+Sitemap: https://www.sparktuitions.in/sitemap.xml

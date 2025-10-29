@@ -1,0 +1,187 @@
+.expertise {
+  background: linear-gradient(180deg, #fffbe6 0%, #fff 100%);
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.expertise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-bottom: 60px;
+}
+
+.expertise-item {
+  display: flex;
+  gap: 18px;
+  padding: 24px 18px;
+  background: linear-gradient(120deg, #fffbe6 60%, #fff 100%);
+  border-radius: 14px;
+  border: 1.2px solid var(--primary);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.22s ease, box-shadow 0.22s;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.expertise-item:hover {
+  transform: none;
+  box-shadow: 0 6px 24px rgba(2,6,23,0.08);
+  border-color: var(--glass-border);
+  background: var(--surface);
+}
+
+.expertise-icon {
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--primary) 60%, var(--secondary) 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.1rem;
+  color: #fff;
+  box-shadow: 0 2px 12px rgba(255, 221, 51, 0.15);
+  flex-shrink: 0;
+  transition: box-shadow 0.25s;
+}
+
+.expertise-item:hover .expertise-icon {
+  box-shadow: 0 2px 12px rgba(255, 221, 51, 0.15);
+}
+
+.expertise-text h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: var(--primary);
+}
+
+.expertise-text p {
+  color: var(--text);
+  line-height: 1.7;
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+.expertise-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  margin-top: 60px;
+  padding-top: 60px;
+  border-top: 1.5px solid var(--glass-border);
+}
+
+.stat {
+  text-align: center;
+  padding: 32px 0;
+  background: var(--surface);
+  border-radius: 16px;
+  border: 1.5px solid var(--glass-border);
+  box-shadow: 0 4px 18px rgba(2,6,23,0.07);
+  transition: transform 0.25s;
+}
+
+.stat:hover {
+  transform: translateY(-6px) scale(1.04);
+  border-color: var(--primary);
+}
+
+.stat-number {
+  font-size: 2.6rem;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+@media (max-width: 992px) {
+  .expertise-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .expertise-stats {
+    grid-template-columns: 1fr;
+  }
+  .expertise-item {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+    padding: 24px 12px;
+  }
+  .expertise-icon {
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .expertise-item { padding: 18px 10px; gap: 12px; }
+}
+
+/* Modern, professional styles for additional section blocks moved from About */
+.additional-sections {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin: 40px 0 20px 0;
+}
+
+.section-block {
+  background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(250,250,252,0.95));
+  border-radius: 14px;
+  padding: 22px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+  transition: transform 0.28s cubic-bezier(.2,.9,.3,1), box-shadow 0.28s;
+}
+
+.section-block:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 50px rgba(2,6,23,0.09);
+  border-color: rgba(16,24,40,0.08);
+}
+
+.section-block h3 {
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.section-block p {
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  font-size: 0.98rem;
+}
+
+/* Achievements list removed from Expertise — original styles kept in About.css if still needed */
+
+@media (max-width: 900px) {
+  .additional-sections { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 576px) {
+  .section-block { padding: 18px; }
+  .achievement-list li { padding-left: 30px; }
+}
