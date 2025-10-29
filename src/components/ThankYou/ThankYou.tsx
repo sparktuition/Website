@@ -14,18 +14,16 @@ const ThankYou: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
   };
 
   return (
-    <div className="thankyou-overlay" role="dialog" aria-modal="true" aria-labelledby="thankyou-title">
-      <div className="thankyou-card">
+    <div className="thankyou-overlay" role="dialog" aria-modal="true" aria-labelledby="thankyou-title" onClick={handleClose}>
+      <div className="thankyou-card" onClick={(e) => e.stopPropagation()}>
         <button className="thankyou-close" aria-label="Close" onClick={handleClose}>×</button>
         <div className="thankyou-icon" aria-hidden>
           ✓
         </div>
         <h2 id="thankyou-title">Thank you!</h2>
-        <p className="muted">We received your request. Our team will contact you within 24 hours to schedule your free demo.</p>
-        <div className="thankyou-actions">
-          <button className="btn btn-primary" onClick={handleClose}>Continue browsing</button>
-          <a className="btn btn-outline" href="#contact" onClick={handleClose}>Back to contact</a>
-        </div>
+        <p className="muted">Thanks for reaching out — we received your request. Our team will review it and get in touch to help you schedule a demo and answer any questions.</p>
+
+        <p className="muted thankyou-tap" style={{ marginTop: '18px', fontWeight: 600 }}>Tap anywhere to close</p>
       </div>
     </div>
   );
