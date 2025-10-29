@@ -96,7 +96,9 @@ export default function App() {
       </main>
       <Footer />
       <FloatingWhatsApp />
-      <PopupForm />
+      <PopupForm isVisible={false} onClose={function (): void {
+        throw new Error('Function not implemented.');
+      } } />
       {showThank && <ThankYou onClose={onCloseThank} />}
     </>
   );

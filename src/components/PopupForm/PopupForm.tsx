@@ -1,74 +1,36 @@
 import { useEffect, useRef, useState } from 'react';
 import './PopupForm.css';
 
-const PopupForm = () => {
-  const [visible, setVisible] = useState(false);
-  const [shownCount, setShownCount] = useState(0); // ensure shown twice max
+interface PopupFormProps {
+  isVisible: boolean;
+  onClose: () => void;
+  selectedCourse?: string;
+}
+
+const PopupForm: React.FC<PopupFormProps> = ({ isVisible, onClose, selectedCourse = '' }) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
+  const [form, setForm] = useState({ name: '', phone: '', course: selectedCourse, preferredTime: '' });
 
   useEffect(() => {
-    // Show after 3 seconds, but do not show if user is currently viewing the 'about' (second) section
-    const timer = setTimeout(() => {
-      const about = document.querySelector('#about');
-      const isInAbout = () => {
-        if (!about) return false;
-        const r = about.getBoundingClientRect();
-        return r.top < window.innerHeight && r.bottom > 0;
-      };
-
-      if (isInAbout()) {
-        // skip showing the popup if user is viewing the second section
-        return;
-      }
-
-      if (shownCount < 2) {
-        setVisible(true);
-        setShownCount(c => c + 1);
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []); // run once
-
-  useEffect(() => {
-    // Show when Contact (last section) enters viewport
-    const target = document.querySelector('#contact');
-    if (!target) return;
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && shownCount < 2) {
-            setVisible(true);
-            setShownCount(c => c + 1);
-          }
-        });
-      },
-      { root: null, threshold: 0.3 }
-    );
-
-    obs.observe(target);
-    return () => obs.disconnect();
-  }, [shownCount]);
+    setForm(prev => ({ ...prev, course: selectedCourse }));
+  }, [selectedCourse]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setVisible(false);
+      if (e.key === 'Escape') onClose();
     };
     document.addEventListener('keydown', onKey);
     return () => document.removeEventListener('keydown', onKey);
-  }, []);
+  }, [onClose]);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
-    if (e.target === overlayRef.current) setVisible(false);
+    if (e.target === overlayRef.current) onClose();
   };
-
-  const [form, setForm] = useState({ name: '', phone: '', course: '', preferredTime: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Popup form submitted', form);
-    setVisible(false);
+    onClose();
     setForm({ name: '', phone: '', course: '', preferredTime: '' });
     // Navigate to thank-you overlay
     try {
@@ -80,12 +42,12 @@ const PopupForm = () => {
     // TODO: wire to API/CRM
   };
 
-  if (!visible) return null;
+  if (!isVisible) return null;
 
   return (
     <div className="popup-overlay" ref={overlayRef} onClick={handleOverlayClick} role="dialog" aria-modal="true">
       <div className="popup-card" role="document">
-        <button className="popup-close" aria-label="Close" onClick={() => setVisible(false)}>×</button>
+        <button className="popup-close" aria-label="Close" onClick={onClose}>×</button>
         <h3>Book a Free Demo</h3>
         <p className="muted">Quickly book a free demo — we'll get back within 24 hours.</p>
         <form className="popup-form" onSubmit={handleSubmit}>

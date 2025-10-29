@@ -21,7 +21,7 @@ const Teachers = () => {
                 <div>
                   <h3 id="teacher-sahana">Capt Sahana Sundar (Retd.)</h3>
                   <p className="role">Spoken English Specialist & Educator (Grades 1–12, CBSE & ICSE)</p>
-                  <span className="location">Chennai, India</span>
+                  <span className="location">Bengaluru, India</span>
                 </div>
               </header>
               <div className="card-details">
