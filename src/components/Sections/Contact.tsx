@@ -1,5 +1,6 @@
 import { type FormEvent, useState } from 'react';
 import './Contact.css';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -8,20 +9,44 @@ const Contact = () => {
     course: '',
     preferredTime: ''
   });
+  const [sending, setSending] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // Replace with your submission logic (API call / CRM integration)
-    console.log('Demo booking request:', formData);
-    // Navigate to thank-you overlay
-    try {
-      // set a hash; App listens for this and will show the thank you overlay
-      location.hash = '#thank-you';
-    } catch (err) {
-      // fallback: show a simple alert if hash isn't available
-      alert('Thanks! Your free demo request has been received. We will contact you soon.');
+    if (!serviceId || !templateId || !publicKey) {
+      alert('Email service is not configured. Please set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY.');
+      return;
     }
-    setFormData({ name: '', phone: '', course: '', preferredTime: '' });
+    setSending(true);
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name: formData.name,
+          phone: formData.phone,
+          course: formData.course,
+          preferredTime: formData.preferredTime,
+          source: 'contact-section'
+        },
+        { publicKey }
+      );
+      try {
+        location.hash = '#thank-you';
+      } catch (err) {
+        alert('Thanks! Your free demo request has been received. We will contact you soon.');
+      }
+      setFormData({ name: '', phone: '', course: '', preferredTime: '' });
+    } catch (err) {
+      console.error('Email send failed:', err);
+      alert('Sorry, something went wrong while sending your request. Please try again or contact us directly.');
+    } finally {
+      setSending(false);
+    }
   };
 
   // Phone and WhatsApp configuration
@@ -136,7 +161,9 @@ const Contact = () => {
                   </select>
                 </div>
 
-                <button type="submit" className="btn btn-primary btn-block">Book a Free Demo</button>
+                <button type="submit" className="btn btn-primary btn-block" disabled={sending}>
+                  {sending ? 'Sending...' : 'Book a Free Demo'}
+                </button>
               </form>
             </div>
           </div>

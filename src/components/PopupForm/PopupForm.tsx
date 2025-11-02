@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import './PopupForm.css';
+import emailjs from '@emailjs/browser';
 
 interface PopupFormProps {
   isVisible: boolean;
@@ -10,6 +11,11 @@ interface PopupFormProps {
 const PopupForm: React.FC<PopupFormProps> = ({ isVisible, onClose, selectedCourse = '' }) => {
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const [form, setForm] = useState({ name: '', phone: '', course: selectedCourse, preferredTime: '' });
+  const [sending, setSending] = useState(false);
+
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
 
   useEffect(() => {
     setForm(prev => ({ ...prev, course: selectedCourse }));
@@ -27,19 +33,39 @@ const PopupForm: React.FC<PopupFormProps> = ({ isVisible, onClose, selectedCours
     if (e.target === overlayRef.current) onClose();
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Popup form submitted', form);
-    onClose();
-    setForm({ name: '', phone: '', course: '', preferredTime: '' });
-    // Navigate to thank-you overlay
-    try {
-      location.hash = '#thank-you';
-    } catch (err) {
-      // fallback
-      alert('Thanks! Your request has been received.');
+    if (!serviceId || !templateId || !publicKey) {
+      alert('Email service is not configured. Please set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID, and VITE_EMAILJS_PUBLIC_KEY.');
+      return;
     }
-    // TODO: wire to API/CRM
+    setSending(true);
+    try {
+      await emailjs.send(
+        serviceId,
+        templateId,
+        {
+          name: form.name,
+          phone: form.phone,
+          course: form.course,
+          preferredTime: form.preferredTime,
+          source: 'popup-form'
+        },
+        { publicKey }
+      );
+      onClose();
+      setForm({ name: '', phone: '', course: '', preferredTime: '' });
+      try {
+        location.hash = '#thank-you';
+      } catch (err) {
+        alert('Thanks! Your request has been received.');
+      }
+    } catch (err) {
+      console.error('Email send failed:', err);
+      alert('Sorry, something went wrong while sending your request. Please try again or contact us directly.');
+    } finally {
+      setSending(false);
+    }
   };
 
   if (!isVisible) return null;
@@ -75,7 +101,9 @@ const PopupForm: React.FC<PopupFormProps> = ({ isVisible, onClose, selectedCours
             <option value="evening">Evening</option>
           </select>
 
-          <button type="submit" className="btn btn-primary btn-block">Book a Free Demo</button>
+          <button type="submit" className="btn btn-primary btn-block" disabled={sending}>
+            {sending ? 'Sending...' : 'Book a Free Demo'}
+          </button>
         </form>
       </div>
     </div>

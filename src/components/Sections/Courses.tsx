@@ -1,10 +1,27 @@
 import './Courses.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PopupForm from '../PopupForm/PopupForm';
 
 const Courses = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState('');
+  
+  useEffect(() => {
+    const checkHash = () => {
+      if (window.location.hash === '#demo') {
+        setIsPopupVisible(true);
+        // clear the hash so it doesn't persist
+        try {
+          history.replaceState(null, '', location.pathname + location.search);
+        } catch {
+          location.hash = '';
+        }
+      }
+    };
+    checkHash();
+    window.addEventListener('hashchange', checkHash);
+    return () => window.removeEventListener('hashchange', checkHash);
+  }, []);
   const courses = [
     {
       id: 1,

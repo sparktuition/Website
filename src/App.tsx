@@ -35,10 +35,58 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    let triggered = false;
+    try { triggered = sessionStorage.getItem('popupShown') === '1'; } catch {}
+    const el = document.getElementById('about');
+    if (!el || triggered) return;
+    const aboutBottom = () => el.offsetTop + el.offsetHeight;
+    const onScroll = () => {
+      if (triggered) return;
+      try { if (sessionStorage.getItem('popupShown') === '1') { triggered = true; return; } } catch {}
+      if (window.scrollY > aboutBottom()) {
+        triggered = true;
+        try { location.hash = '#demo'; } catch {}
+        try { sessionStorage.setItem('popupShown', '1'); } catch {}
+        window.removeEventListener('scroll', onScroll);
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  useEffect(() => {
+    try { if (sessionStorage.getItem('popupShown') === '1') return; } catch {}
+    let cleared = false;
+    const t = setTimeout(() => {
+      if (cleared) return;
+      try { if (sessionStorage.getItem('popupShown') === '1') return; } catch {}
+      try { location.hash = '#demo'; } catch {}
+      try { sessionStorage.setItem('popupShown', '1'); } catch {}
+    }, 10000);
+    const onFirstScroll = () => {
+      if (window.scrollY > 0) {
+        cleared = true;
+        clearTimeout(t);
+        window.removeEventListener('scroll', onFirstScroll);
+      }
+    };
+    window.addEventListener('scroll', onFirstScroll, { passive: true });
+    return () => {
+      cleared = true;
+      clearTimeout(t);
+      window.removeEventListener('scroll', onFirstScroll);
+    };
+  }, []);
+
   // listen to hash changes to show/hide thank you overlay
   useEffect(() => {
     const checkHash = () => {
       setShowThank(window.location.hash === '#thank-you');
+      if (window.location.hash === '#demo') {
+        try { sessionStorage.setItem('popupShown', '1'); } catch {}
+      }
     };
     checkHash();
     window.addEventListener('hashchange', checkHash);

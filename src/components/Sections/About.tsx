@@ -41,41 +41,19 @@ const About = () => {
                 <p>Consistent academic improvement</p>
               </div>
             </div>
-            <a href="#contact" className="btn">Learn More</a>
+            <a
+              href="#demo"
+              className="btn"
+              onClick={(e) => {
+                e.preventDefault();
+                try { location.hash = '#demo'; } catch {}
+              }}
+            >
+              Learn More
+            </a>
           </div>
           <div className="about-image">
             <img src={aboutImg} alt="Students learning" />
-          </div>
-        </div>
-        {/* Inline inquiry form placed after the second section (About) */}
-        <div className="inline-inquiry">
-          <div className="inquiry-card">
-            <h3>Book a Free Demo</h3>
-            <p className="muted">Fill a quick form and we'll contact you to schedule a demo.</p>
-            <form className="inquiry-inline-form" onSubmit={(e) => { e.preventDefault(); alert('Request received. We will contact you.'); }}>
-              <div className="form-row">
-                <input type="text" placeholder="Full name" required />
-              </div>
-              <div className="form-row">
-                <input type="tel" placeholder="Phone number" required />
-              </div>
-              <div className="form-row">
-                <select required>
-                  <option value="">Course interest</option>
-                  <option value="jee">JEE</option>
-                  <option value="neet">NEET</option>
-                  <option value="cbse">CBSE/Boards</option>
-                </select>
-              </div>
-              <div className="form-row">
-                <select required>
-                  <option value="">Preferred time</option>
-                  <option value="morning">Morning</option>
-                  <option value="evening">Evening</option>
-                </select>
-              </div>
-              <button className="btn btn-primary" type="submit">Book a Free Demo</button>
-            </form>
           </div>
         </div>
       </div>
